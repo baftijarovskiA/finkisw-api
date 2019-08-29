@@ -15,12 +15,12 @@ import java.util.Properties;
 public class EmailController {
 
     @RequestMapping(value = "/sendemail")
-    public String sendEmail(String account, String username, String password, boolean removed) throws AddressException, IOException, MessagingException {
+    public String sendEmail(String account, String username, String password, int removed) throws AddressException, IOException, MessagingException {
         sendmail(account,username,password,removed);
         return "Email sent successfully";
     }
 
-    private void sendmail(String email, String username, String password, boolean removed) throws AddressException, MessagingException, IOException {
+    private void sendmail(String email, String username, String password, int removed) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -37,12 +37,16 @@ public class EmailController {
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 
-        if(removed){
+        if(removed == 1){
             msg.setSubject("Account removed");
             msg.setContent("We are sorry, but your account with this email address and username: " +
-                    "<b>"+username+"</b> was revomed from our database.<br/>", "text/html");
-        } else {
-            msg.setSubject("Registration Confirmed");
+                    "<b>"+username+"</b> was removed from our database.<br/>", "text/html");
+        } else{
+            if(removed == 0)
+                msg.setSubject("Registration Confirmed");
+            else if(removed == 2)
+                msg.setSubject("Password changed!");
+
             msg.setContent("Here are your credentials: <br>" +
                     "Username: <b>"+username+"</b> <br/>" +
                     "Password: <i><b>"+password+"</b></i> <br/>" +

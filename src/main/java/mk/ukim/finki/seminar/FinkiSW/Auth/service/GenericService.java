@@ -11,6 +11,8 @@ public interface GenericService {
 
     User findByUsername(String username);
 
+    User findByEmail(String email);
+
     List<User> findAllUsers();
 
     List<Role> findAllRoles();
@@ -18,5 +20,7 @@ public interface GenericService {
     User registerNewUser(User user) throws IOException, MessagingException;
 
     User removeUser(Long id) throws IOException, MessagingException;
+
+    User editUser(Long id, User user) throws IOException, MessagingException;
 
 }

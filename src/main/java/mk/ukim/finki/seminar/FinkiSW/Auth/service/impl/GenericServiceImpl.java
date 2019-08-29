@@ -33,6 +33,11 @@ public class GenericServiceImpl implements GenericService {
     }
 
     @Override
+    public User findByEmail(String email) {
+        return userJpaRepository.findUserByEmail(email);
+    }
+
+    @Override
     public List<User> findAllUsers() {
         return (List<User>) userJpaRepository.findAll();
     }
@@ -47,7 +52,7 @@ public class GenericServiceImpl implements GenericService {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         String password = pwgenerator();
-        emailController.sendEmail(user.getEmail(), user.getUsername(), password,false);
+        emailController.sendEmail(user.getEmail(), user.getUsername(), password,0);
         user.setPassword(passwordEncoder.encode(password));
         userJpaRepository.save(user);
         return user;
@@ -56,10 +61,30 @@ public class GenericServiceImpl implements GenericService {
     @Override
     public User removeUser(Long id) throws IOException, MessagingException {
         User user = userJpaRepository.findById(id).get();
-        emailController.sendEmail(user.getEmail(), user.getUsername(), user.getPassword(), true);
+        emailController.sendEmail(user.getEmail(), user.getUsername(), user.getPassword(), 1);
         userJpaRepository.delete(user);
         return user;
     }
+
+    @Override
+    public User editUser(Long id, User user) throws IOException, MessagingException {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        User currentUser = userJpaRepository.findById(id).get();
+        currentUser.setFirstName(user.getFirstName());
+        currentUser.setLastName(user.getLastName());
+        currentUser.setEmail(user.getEmail());
+
+        String password = user.getPassword();
+        if(! currentUser.getPassword().equals(passwordEncoder.encode(password))){
+            emailController.sendEmail(user.getEmail(), user.getUsername(), password,2);
+            currentUser.setPassword(passwordEncoder.encode(password));
+        } else {
+            currentUser.setPassword(password);
+        }
+        userJpaRepository.save(currentUser);
+        return currentUser;
+    }
+
 
     private String pwgenerator() {
         int leftLimit = 97; // letter 'a'
@@ -72,7 +97,6 @@ public class GenericServiceImpl implements GenericService {
                     (random.nextFloat() * (rightLimit - leftLimit + 1));
             buffer.append((char) randomLimitedInt);
         }
-        String generatedString = buffer.toString();
-        return generatedString;
+        return buffer.toString();
     }
 }
