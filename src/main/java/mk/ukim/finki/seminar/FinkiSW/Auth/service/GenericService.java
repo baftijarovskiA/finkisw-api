@@ -23,4 +23,9 @@ public interface GenericService {
 
     User editUser(Long id, User user) throws IOException, MessagingException;
 
+    Role addNewRole(Role role);
+
+    Role deleteRoleById(Long id);
+
+    Role editRole(Long id, Role role);
 }

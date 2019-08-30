@@ -45,7 +45,7 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('TEACHER_USER') or hasAuthority('STUDENT_USER')")
     public User editUser(@PathVariable("id") Long id, @Valid @RequestBody User user) throws IOException, MessagingException {
         return genericService.editUser(id,user);
     }
@@ -56,4 +56,23 @@ public class AccountController {
     public List<Role> getRoles(){
         return genericService.findAllRoles();
     }
+
+    @RequestMapping(value ="/roles", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public Role addNewRole(@Valid @RequestBody Role role){
+        return genericService.addNewRole(role);
+    }
+
+    @RequestMapping(value ="/roles/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public Role deleteRole(@PathVariable("id") Long id){
+        return genericService.deleteRoleById(id);
+    }
+
+    @RequestMapping(value ="/roles/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public Role editRole(@PathVariable("id") Long id, @Valid @RequestBody Role role){
+        return genericService.editRole(id,role);
+    }
+
 }

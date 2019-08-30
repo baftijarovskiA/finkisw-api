@@ -85,6 +85,28 @@ public class GenericServiceImpl implements GenericService {
         return currentUser;
     }
 
+    @Override
+    public Role addNewRole(Role role) {
+        roleJpaRepository.save(role);
+        return role;
+    }
+
+    @Override
+    public Role deleteRoleById(Long id) {
+        Role role = roleJpaRepository.findById(id).get();
+        roleJpaRepository.delete(role);
+        return role;
+    }
+
+    @Override
+    public Role editRole(Long id, Role role) {
+        Role currRole = roleJpaRepository.findById(id).get();
+        currRole.setRoleName(role.getRoleName());
+        currRole.setDescription(role.getDescription());
+        roleJpaRepository.save(currRole);
+        return currRole;
+    }
+
 
     private String pwgenerator() {
         int leftLimit = 97; // letter 'a'
