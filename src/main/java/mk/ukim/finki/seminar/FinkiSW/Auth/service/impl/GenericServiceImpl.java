@@ -74,14 +74,14 @@ public class GenericServiceImpl implements GenericService {
         currentUser.setLastName(user.getLastName());
         currentUser.setEmail(user.getEmail());
 
-        String password = user.getPassword();
-        if(! currentUser.getPassword().equals(passwordEncoder.encode(password))){
-            emailController.sendEmail(user.getEmail(), user.getUsername(), password,2);
-            currentUser.setPassword(passwordEncoder.encode(password));
+        if(user.getPassword() == null){
+            currentUser.setPassword(currentUser.getPassword());
+            userJpaRepository.save(currentUser);
         } else {
-            currentUser.setPassword(password);
+            emailController.sendEmail(user.getEmail(), user.getUsername(), user.getPassword(),2);
+            currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            userJpaRepository.save(currentUser);
         }
-        userJpaRepository.save(currentUser);
         return currentUser;
     }
 
