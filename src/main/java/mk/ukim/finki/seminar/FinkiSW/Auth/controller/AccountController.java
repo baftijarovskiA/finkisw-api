@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+
+
 @RestController
 @RequestMapping("/api")
 public class AccountController {
@@ -28,8 +30,7 @@ public class AccountController {
 
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     public User logout(OAuth2Authentication auth){
-        User user = genericService.findByUsername(auth.getName());
-        return user;
+        return genericService.findByUsername(auth.getName());
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)

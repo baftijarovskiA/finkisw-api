@@ -18,13 +18,12 @@ public class PasswordEncoder {
                     (random.nextFloat() * (rightLimit - leftLimit + 1));
             buffer.append((char) randomLimitedInt);
         }
-        String generatedString = buffer.toString();
 
-        return generatedString;
+        return buffer.toString();
     }
 
     public static void main(String[] args) {
-        String password = "admpass";
+        String password = "user";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         System.out.println(encoder.encode(password));
 //        System.out.println(pwgenerator());

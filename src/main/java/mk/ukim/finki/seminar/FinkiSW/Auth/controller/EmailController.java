@@ -1,5 +1,6 @@
 package mk.ukim.finki.seminar.FinkiSW.Auth.controller;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,12 +16,12 @@ import java.util.Properties;
 public class EmailController {
 
     @RequestMapping(value = "/sendemail")
-    public String sendEmail(String account, String username, String password, int removed) throws AddressException, IOException, MessagingException {
+    public String sendEmail(String account, String username, String password, int removed) throws MessagingException {
         sendmail(account,username,password,removed);
         return "Email sent successfully";
     }
 
-    private void sendmail(String email, String username, String password, int removed) throws AddressException, MessagingException, IOException {
+    private void sendmail(String email, String username, String password, int removed) throws MessagingException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
