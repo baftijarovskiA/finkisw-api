@@ -13,6 +13,8 @@ public interface GenericService {
 
     User findByEmail(String email);
 
+    User findById(Long id);
+
     List<User> findAllUsers();
 
     List<Role> findAllRoles();

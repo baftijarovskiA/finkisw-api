@@ -28,6 +28,12 @@ public class AccountController {
         return genericService.findAllUsers();
     }
 
+    @RequestMapping(value ="/users/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public User getUserById(@PathVariable("id") Long id){
+        return genericService.findById(id);
+    }
+
     @RequestMapping(value = "/current", method = RequestMethod.GET)
     public User logout(OAuth2Authentication auth){
         return genericService.findByUsername(auth.getName());

@@ -38,6 +38,11 @@ public class GenericServiceImpl implements GenericService {
     }
 
     @Override
+    public User findById(Long id) {
+        return userJpaRepository.findById(id).get();
+    }
+
+    @Override
     public List<User> findAllUsers() {
         return (List<User>) userJpaRepository.findAll();
     }
