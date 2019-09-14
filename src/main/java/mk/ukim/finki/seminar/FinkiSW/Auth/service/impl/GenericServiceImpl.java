@@ -78,6 +78,7 @@ public class GenericServiceImpl implements GenericService {
         currentUser.setFirstName(user.getFirstName());
         currentUser.setLastName(user.getLastName());
         currentUser.setEmail(user.getEmail());
+        currentUser.setRoles(user.getRoles());
 
         if(user.getPassword() == null){
             currentUser.setPassword(currentUser.getPassword());

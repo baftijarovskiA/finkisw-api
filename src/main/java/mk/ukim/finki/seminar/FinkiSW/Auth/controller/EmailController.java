@@ -30,7 +30,7 @@ public class EmailController {
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("noreply.seminar.finki@gmail.com", "TestFinki1");
+                return new PasswordAuthentication("noreply.seminar.finki@gmail.com", "FinkiSeminar1");
             }
         });
         Message msg = new MimeMessage(session);
