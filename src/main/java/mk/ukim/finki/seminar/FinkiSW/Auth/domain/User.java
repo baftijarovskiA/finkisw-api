@@ -30,10 +30,6 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    /**
-     * Roles are being eagerly loaded here because
-     * they are a fairly small collection of items for this example.
-     */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns
             = @JoinColumn(name = "user_id",
