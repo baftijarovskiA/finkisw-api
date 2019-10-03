@@ -22,5 +22,7 @@ public interface CourseService {
 
     List<Course> getCourseByUser(String username, String type);
 
-    void editUsersByCourse(Long id, List<User> users, String type);
+    void addUsersToCourse(Long id, List<User> users, String type);
+
+    List<User> getAllUsersNotInCourse(Long id, String type);
 }

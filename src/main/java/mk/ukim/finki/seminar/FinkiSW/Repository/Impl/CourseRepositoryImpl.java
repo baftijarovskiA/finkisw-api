@@ -1,6 +1,7 @@
 package mk.ukim.finki.seminar.FinkiSW.Repository.Impl;
 
 import mk.ukim.finki.seminar.FinkiSW.Auth.domain.User;
+import mk.ukim.finki.seminar.FinkiSW.Auth.service.GenericService;
 import mk.ukim.finki.seminar.FinkiSW.Model.Course;
 import mk.ukim.finki.seminar.FinkiSW.Repository.CourseRepository;
 import mk.ukim.finki.seminar.FinkiSW.Repository.JpaRepository.CourseJpaRepository;
@@ -16,8 +17,12 @@ import java.util.Set;
 public class CourseRepositoryImpl implements CourseRepository {
 
     private CourseJpaRepository repository;
+    private GenericService userRepository;
 
-    public CourseRepositoryImpl(CourseJpaRepository repository) { this.repository = repository; }
+    public CourseRepositoryImpl(CourseJpaRepository repository, GenericService userRepository) {
+        this.repository = repository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<Course> getAllCourses() {
@@ -86,7 +91,7 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
-    public void editUsersByCourse(Long id, List<User> users, String type) {
+    public void addUsersToCourse(Long id, List<User> users, String type) {
         Course course = repository.findById(id).get();
         Set<User> userSet = new HashSet<>(users);
         if(type.equals("s")){
@@ -96,6 +101,40 @@ public class CourseRepositoryImpl implements CourseRepository {
         }
         course.setUpdatedAt(LocalDateTime.now());
         repository.save(course);
+    }
+
+    @Override
+    public List<User> getAllUsersNotInCourse(Long id, String type) {
+        Course course = repository.findById(id).get();
+        List<User> notInCourseUsers = new ArrayList<>();
+        List<User> allUsers = new ArrayList<>();
+        List<User> currentUsers = new ArrayList<>();
+
+        if(type.equals("s")){
+            currentUsers =  new ArrayList<>(course.getStudents());
+        } else if (type.equals("t")){
+            currentUsers =  new ArrayList<>(course.getTeachers());
+        }
+
+        for (User user: userRepository.findAllUsers()) {
+            if(type.equals("t")){
+                if(user.getRoles().get(0).getRoleName().equals("TEACHER_USER")){
+                    allUsers.add(user);
+                }
+            } else if(type.equals("s")){
+                if(user.getRoles().get(0).getRoleName().equals("STUDENT_USER")){
+                    allUsers.add(user);
+                }
+            }
+        }
+
+        for (User user: currentUsers) {
+            if(allUsers.contains(user)){
+                allUsers.remove(user);
+            }
+        }
+
+        return allUsers;
     }
 
 }

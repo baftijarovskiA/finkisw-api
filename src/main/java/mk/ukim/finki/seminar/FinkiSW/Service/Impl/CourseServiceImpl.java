@@ -7,7 +7,6 @@ import mk.ukim.finki.seminar.FinkiSW.Service.CourseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -52,7 +51,12 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void editUsersByCourse(Long id, List<User> users, String type) {
-        repository.editUsersByCourse(id,users,type);
+    public void addUsersToCourse(Long id, List<User> users, String type) {
+        repository.addUsersToCourse(id,users,type);
+    }
+
+    @Override
+    public List<User> getAllUsersNotInCourse(Long id, String type) {
+        return repository.getAllUsersNotInCourse(id,type);
     }
 }

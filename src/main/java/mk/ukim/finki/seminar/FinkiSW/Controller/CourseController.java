@@ -54,8 +54,14 @@ public class CourseController {
 
     @RequestMapping(value ="users/{type}/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('ADMIN_USER')")
-    public void editUsersByCourse(@PathVariable("id") Long id, @Valid @RequestBody List<User> users, @PathVariable("type") String type){
-        courseService.editUsersByCourse(id,users,type);
+    public void addUsersToCourse(@PathVariable("id") Long id, @Valid @RequestBody List<User> users, @PathVariable("type") String type){
+        courseService.addUsersToCourse(id,users,type);
+    }
+
+    @RequestMapping(value ="othersUsers/{type}/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public List<User> getAllUsersNotInCourse(@PathVariable("id") Long id, @PathVariable("type") String type){
+        return courseService.getAllUsersNotInCourse(id,type);
     }
 
     @RequestMapping(value ="/info/{id}", method = RequestMethod.PUT)
