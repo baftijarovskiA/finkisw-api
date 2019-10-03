@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class CourseRepositoryImpl implements CourseRepository {
@@ -81,6 +83,19 @@ public class CourseRepositoryImpl implements CourseRepository {
 
         }
         return selectedCourses;
+    }
+
+    @Override
+    public void editUsersByCourse(Long id, List<User> users, String type) {
+        Course course = repository.findById(id).get();
+        Set<User> userSet = new HashSet<>(users);
+        if(type.equals("s")){
+            course.setStudents(userSet);
+        } else if(type.equals("t")) {
+            course.setTeachers(userSet);
+        }
+        course.setUpdatedAt(LocalDateTime.now());
+        repository.save(course);
     }
 
 }

@@ -1,5 +1,6 @@
 package mk.ukim.finki.seminar.FinkiSW.Controller;
 
+import mk.ukim.finki.seminar.FinkiSW.Auth.domain.User;
 import mk.ukim.finki.seminar.FinkiSW.Model.Course;
 import mk.ukim.finki.seminar.FinkiSW.Service.Impl.CourseServiceImpl;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/courses")
@@ -45,13 +47,19 @@ public class CourseController {
     }
 
     @RequestMapping(value ="/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasAuthority('ADMIN_USER')  or hasAuthority('TEACHER_USER')")
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
     public Course editCourseById(@PathVariable("id") Long id, @Valid @RequestBody Course course){
         return courseService.editCourseById(id, course);
     }
 
+    @RequestMapping(value ="users/{type}/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
+    public void editUsersByCourse(@PathVariable("id") Long id, @Valid @RequestBody List<User> users, @PathVariable("type") String type){
+        courseService.editUsersByCourse(id,users,type);
+    }
+
     @RequestMapping(value ="/info/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("hasAuthority('ADMIN_USER')  or hasAuthority('TEACHER_USER')")
+    @PreAuthorize("hasAuthority('TEACHER_USER')")
     public void addInfoToCourse(@PathVariable("id") Long id, @Valid @RequestBody Course course){
         courseService.addInfoToCourse(id, course);
     }

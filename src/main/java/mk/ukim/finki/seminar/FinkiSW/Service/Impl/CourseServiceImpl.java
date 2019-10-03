@@ -1,11 +1,13 @@
 package mk.ukim.finki.seminar.FinkiSW.Service.Impl;
 
+import mk.ukim.finki.seminar.FinkiSW.Auth.domain.User;
 import mk.ukim.finki.seminar.FinkiSW.Model.Course;
 import mk.ukim.finki.seminar.FinkiSW.Repository.Impl.CourseRepositoryImpl;
 import mk.ukim.finki.seminar.FinkiSW.Service.CourseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -47,5 +49,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getCourseByUser(String username,String type) {
         return repository.getCourseByUser(username,type);
+    }
+
+    @Override
+    public void editUsersByCourse(Long id, List<User> users, String type) {
+        repository.editUsersByCourse(id,users,type);
     }
 }

@@ -1,8 +1,10 @@
 package mk.ukim.finki.seminar.FinkiSW.Repository;
 
+import mk.ukim.finki.seminar.FinkiSW.Auth.domain.User;
 import mk.ukim.finki.seminar.FinkiSW.Model.Course;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CourseRepository {
 
@@ -19,4 +21,6 @@ public interface CourseRepository {
     void addInfoToCourse(Long id, Course course);
 
     List<Course> getCourseByUser(String username, String type);
+
+    void editUsersByCourse(Long id, List<User> users, String type);
 }
