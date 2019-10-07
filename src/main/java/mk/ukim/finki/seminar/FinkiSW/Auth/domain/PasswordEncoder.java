@@ -23,7 +23,7 @@ public class PasswordEncoder {
     }
 
     public static void main(String[] args) {
-        String password = "user";
+        String password = "adminpass";
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         System.out.println(encoder.encode(password));
 //        System.out.println(pwgenerator());
