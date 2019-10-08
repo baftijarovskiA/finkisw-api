@@ -2,6 +2,9 @@ package mk.ukim.finki.seminar.FinkiSW.Auth.domain;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class PasswordEncoder {
@@ -27,5 +30,10 @@ public class PasswordEncoder {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         System.out.println(encoder.encode(password));
 //        System.out.println(pwgenerator());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        LocalDateTime dateTime = LocalDateTime.now();
+        String formattedDateTime = dateTime.format(formatter);
+
+        System.out.println(formattedDateTime);
     }
 }
