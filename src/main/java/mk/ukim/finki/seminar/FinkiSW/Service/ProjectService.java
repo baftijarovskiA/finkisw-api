@@ -23,4 +23,6 @@ public interface ProjectService {
     Project getProjectByStudentAndCourse(Long studentId, Long courseId);
 
     void setFeedback(Long id, int state, Project feedback);
+
+    void uploadProject(Long id, Project project);
 }

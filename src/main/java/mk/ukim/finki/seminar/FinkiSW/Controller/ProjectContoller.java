@@ -53,6 +53,12 @@ public class ProjectContoller {
         projectService.setFeedback(id, state, feedback);
     }
 
+    @RequestMapping(value = "/upload/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('STUDENT_USER') or hasAuthority('ADMIN_USER')")
+    public void uploadProject(@PathVariable("id") Long id, @Valid @RequestBody Project project){
+        projectService.uploadProject(id,project);
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('STUDENT_USER') or hasAuthority('ADMIN_USER')")
     public Project deleteProjectById(@PathVariable("id") Long id){

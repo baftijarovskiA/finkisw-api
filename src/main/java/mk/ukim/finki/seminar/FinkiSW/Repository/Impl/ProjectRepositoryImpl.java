@@ -111,4 +111,11 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         project.setFeedback(feedback.getFeedback());
         repository.save(project);
     }
+
+    @Override
+    public void uploadProject(Long id, Project project) {
+        Project p = repository.findById(id).get();
+        p.setFileLocation(project.getFileLocation());
+        repository.save(p);
+    }
 }

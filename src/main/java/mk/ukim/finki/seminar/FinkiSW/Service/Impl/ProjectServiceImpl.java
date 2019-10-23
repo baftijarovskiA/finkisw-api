@@ -60,4 +60,9 @@ public class ProjectServiceImpl implements ProjectService {
     public void setFeedback(Long id, int state, Project feedback) {
         repository.setFeedback(id,state,feedback);
     }
+
+    @Override
+    public void uploadProject(Long id, Project project) {
+        repository.uploadProject(id,project);
+    }
 }
