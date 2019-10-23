@@ -54,8 +54,13 @@ public class GenericServiceImpl implements GenericService {
 
     @Override
     public User registerNewUser(User user) throws IOException, MessagingException {
+        for (User u: userJpaRepository.findAll()) {
+            if(user.getUsername().equals(u.getUsername())){
+                break;
+            }
+            return null;
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
         String password = pwgenerator();
         emailController.sendEmail(user.getEmail(), user.getUsername(), password,0);
         user.setPassword(passwordEncoder.encode(password));
