@@ -67,7 +67,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         p.setEditedDate(formattedDateTime);
         p.setName(project.getName());
         p.setDescription(project.getDescription());
-        p.setFileLocation(project.getFileLocation());
+        p.setStatus("Not reviewed");
         repository.save(p);
 
         return p;
@@ -78,5 +78,37 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         Project p = repository.findById(id).get();
         repository.delete(p);
         return p;
+    }
+
+    @Override
+    public List<Project> getAllProjectsFromStudent(Long id) {
+        List<Project> projects = new ArrayList<>();
+        for (Project project: repository.findAll()) {
+            if(project.getUser().getId().equals(id)){
+                projects.add(project);
+            }
+        }
+        return projects;
+    }
+
+    @Override
+    public Project getProjectByStudentAndCourse(Long studentId, Long courseId) {
+        for (Project p: repository.findAll()) {
+            if(p.getUser().getId().equals(studentId)){
+                if(p.getCourse().getId().equals(courseId)){
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void setFeedback(Long id, int state, Project feedback) {
+        Project project = repository.findById(id).get();
+        if(state == 1) project.setStatus("Accepted");
+        else project.setStatus("Rejected");
+        project.setFeedback(feedback.getFeedback());
+        repository.save(project);
     }
 }

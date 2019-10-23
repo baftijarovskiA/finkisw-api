@@ -45,4 +45,19 @@ public class ProjectServiceImpl implements ProjectService {
     public Project deleteProjectById(Long id) {
         return repository.deleteProjectById(id);
     }
+
+    @Override
+    public List<Project> getAllProjectsFromStudent(Long id) {
+        return repository.getAllProjectsFromStudent(id);
+    }
+
+    @Override
+    public Project getProjectByStudentAndCourse(Long studentId, Long courseId) {
+        return repository.getProjectByStudentAndCourse(studentId, courseId);
+    }
+
+    @Override
+    public void setFeedback(Long id, int state, Project feedback) {
+        repository.setFeedback(id,state,feedback);
+    }
 }

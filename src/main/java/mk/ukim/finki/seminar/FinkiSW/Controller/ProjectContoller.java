@@ -43,14 +43,32 @@ public class ProjectContoller {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('STUDENT_USER') or hasAuthority('ADMIN_USER')")
-    public Project editProjectById(@PathVariable("id") Long id,@Valid @RequestBody Project project){
+    public Project editProjectById(@PathVariable("id") Long id, @Valid @RequestBody Project project){
         return projectService.editProjectById(id,project);
+    }
+
+    @RequestMapping(value = "/feedback/{id}/{state}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('TEACHER_USER') or hasAuthority('ADMIN_USER')")
+    public void setFeedback(@PathVariable("id") Long id, @PathVariable("state") int state, @Valid @RequestBody Project feedback){
+        projectService.setFeedback(id, state, feedback);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @PreAuthorize("hasAuthority('STUDENT_USER') or hasAuthority('ADMIN_USER')")
     public Project deleteProjectById(@PathVariable("id") Long id){
         return projectService.deleteProjectById(id);
+    }
+
+    @RequestMapping(value = "/student/{id}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('STUDENT_USER') or hasAuthority('ADMIN_USER')")
+    public List<Project> getAllProjectsFromStudent(@PathVariable("id") Long id){
+        return projectService.getAllProjectsFromStudent(id);
+    }
+
+    @RequestMapping(value = "/student/{sId}/course/{cId}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('STUDENT_USER') or hasAuthority('ADMIN_USER')")
+    public Project getProjectByStudentAndCourse(@PathVariable("sId") Long studentId, @PathVariable("cId") Long courseId){
+        return projectService.getProjectByStudentAndCourse(studentId,courseId);
     }
 
 }

@@ -18,4 +18,9 @@ public interface ProjectRepository {
 
     Project deleteProjectById(Long id);
 
+    List<Project> getAllProjectsFromStudent(Long id);
+
+    Project getProjectByStudentAndCourse(Long studentId, Long courseId);
+
+    void setFeedback(Long id, int state, Project feedback);
 }
