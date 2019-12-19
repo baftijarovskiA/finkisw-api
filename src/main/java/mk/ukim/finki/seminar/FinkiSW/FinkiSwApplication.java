@@ -17,5 +17,6 @@ public class FinkiSwApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FinkiSwApplication.class, args);
+
 	}
 }

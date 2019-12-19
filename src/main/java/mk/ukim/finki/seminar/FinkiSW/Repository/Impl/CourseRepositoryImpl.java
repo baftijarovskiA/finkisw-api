@@ -3,8 +3,10 @@ package mk.ukim.finki.seminar.FinkiSW.Repository.Impl;
 import mk.ukim.finki.seminar.FinkiSW.Auth.domain.User;
 import mk.ukim.finki.seminar.FinkiSW.Auth.service.GenericService;
 import mk.ukim.finki.seminar.FinkiSW.Model.Course;
+import mk.ukim.finki.seminar.FinkiSW.Model.Project;
 import mk.ukim.finki.seminar.FinkiSW.Repository.CourseRepository;
 import mk.ukim.finki.seminar.FinkiSW.Repository.JpaRepository.CourseJpaRepository;
+import mk.ukim.finki.seminar.FinkiSW.Repository.JpaRepository.ProjectJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -18,10 +20,12 @@ public class CourseRepositoryImpl implements CourseRepository {
 
     private CourseJpaRepository repository;
     private GenericService userRepository;
+    private ProjectJpaRepository projectJpaRepository;
 
-    public CourseRepositoryImpl(CourseJpaRepository repository, GenericService userRepository) {
+    public CourseRepositoryImpl(CourseJpaRepository repository, GenericService userRepository, ProjectJpaRepository projectJpaRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
+        this.projectJpaRepository = projectJpaRepository;
     }
 
     @Override
@@ -45,6 +49,17 @@ public class CourseRepositoryImpl implements CourseRepository {
     @Override
     public Course deleteCourseById(Long id) {
         Course course = repository.findById(id).get();
+        for (User u: course.getStudents()) {
+            course.getStudents().remove(u);
+        }
+        for (User u: course.getTeachers()) {
+            course.getTeachers().remove(u);
+        }
+        for (Project p:projectJpaRepository.findAll()) {
+            if (p.getCourse().getId().equals(course.getId())){
+                projectJpaRepository.delete(p);
+            }
+        }
         repository.delete(course);
         return course;
     }

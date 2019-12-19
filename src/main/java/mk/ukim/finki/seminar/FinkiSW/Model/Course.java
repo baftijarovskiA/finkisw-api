@@ -35,13 +35,13 @@ public class Course {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToMany
+    @ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "course_teacher", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     private Set<User> teachers;
 
-    @ManyToMany
+    @ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE})
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "course_student", joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))

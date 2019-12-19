@@ -6,6 +6,10 @@ import mk.ukim.finki.seminar.FinkiSW.Auth.domain.User;
 import mk.ukim.finki.seminar.FinkiSW.Auth.repository.RoleJpaRepository;
 import mk.ukim.finki.seminar.FinkiSW.Auth.repository.UserJpaRepository;
 import mk.ukim.finki.seminar.FinkiSW.Auth.service.GenericService;
+import mk.ukim.finki.seminar.FinkiSW.Model.Course;
+import mk.ukim.finki.seminar.FinkiSW.Model.Project;
+import mk.ukim.finki.seminar.FinkiSW.Repository.JpaRepository.CourseJpaRepository;
+import mk.ukim.finki.seminar.FinkiSW.Repository.JpaRepository.ProjectJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,12 @@ public class GenericServiceImpl implements GenericService {
 
     @Autowired
     private EmailController emailController;
+    
+    @Autowired
+    private CourseJpaRepository courseJpaRepository;
+    
+    @Autowired
+    ProjectJpaRepository projectJpaRepository;
 
     @Override
     public User findByUsername(String username) {
@@ -54,10 +64,7 @@ public class GenericServiceImpl implements GenericService {
 
     @Override
     public User registerNewUser(User user) throws IOException, MessagingException {
-        for (User u: userJpaRepository.findAll()) {
-            if(user.getUsername().equals(u.getUsername())){
-                break;
-            }
+        if (userJpaRepository.findByUsername(user.getUsername()) != null){
             return null;
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -71,8 +78,25 @@ public class GenericServiceImpl implements GenericService {
     @Override
     public User removeUser(Long id) throws IOException, MessagingException {
         User user = userJpaRepository.findById(id).get();
-        emailController.sendEmail(user.getEmail(), user.getUsername(), user.getPassword(), 1);
+        for (Project p: projectJpaRepository.findAll()) {
+            if (p.getUser().getId().equals(user.getId())){
+                projectJpaRepository.delete(p);
+            }
+        }
+        for (Course c: courseJpaRepository.findAll()) {
+            for (User u: c.getTeachers()) {
+                if (u.getId().equals(user.getId())){
+                    c.getTeachers().remove(u);
+                }
+            }
+            for (User u: c.getStudents()) {
+                if (u.getId().equals(user.getId())){
+                    c.getStudents().remove(u);
+                }
+            }
+        }
         userJpaRepository.delete(user);
+        emailController.sendEmail(user.getEmail(), user.getUsername(), user.getPassword(), 1);
         return user;
     }
 

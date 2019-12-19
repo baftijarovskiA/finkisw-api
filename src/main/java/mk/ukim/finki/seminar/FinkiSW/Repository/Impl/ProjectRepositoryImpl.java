@@ -76,6 +76,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public Project deleteProjectById(Long id) {
         Project p = repository.findById(id).get();
+        p.setCourse(null);
+        repository.save(p);
         repository.delete(p);
         return p;
     }

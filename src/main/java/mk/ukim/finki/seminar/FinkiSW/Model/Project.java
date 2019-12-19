@@ -31,10 +31,10 @@ public class Project {
     @Column(name = "filelocation")
     private String fileLocation;
 
-    @OneToOne
+    @OneToOne(cascade= {CascadeType.REMOVE})
     private Course course;
 
-    @OneToOne
+    @OneToOne(cascade= {CascadeType.REMOVE})
     private User user;
 
 
