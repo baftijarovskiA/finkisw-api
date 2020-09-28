@@ -46,6 +46,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public void updateDates(Long id, Course course) {
+        repository.updateDates(id, course);
+    }
+
+    @Override
     public List<Course> getCourseByUser(String username,String type) {
         return repository.getCourseByUser(username,type);
     }

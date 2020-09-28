@@ -83,6 +83,14 @@ public class CourseRepositoryImpl implements CourseRepository {
     }
 
     @Override
+    public void updateDates(Long id, Course course) {
+        Course c = repository.findById(id).get();
+        c.setStartDate(course.getStartDate());
+        c.setCloseDate(course.getCloseDate());
+        repository.save(c);
+    }
+
+    @Override
     public List<Course> getCourseByUser(String username, String type) {
         List<Course> selectedCourses = new ArrayList<>();
         List<Course> allCourses = getAllCourses();

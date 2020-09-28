@@ -20,6 +20,8 @@ public interface CourseRepository {
 
     void addInfoToCourse(Long id, Course course);
 
+    void updateDates(Long id, Course course);
+
     List<Course> getCourseByUser(String username, String type);
 
     void addUsersToCourse(Long id, List<User> users, String type);

@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 @Table(name = "app_user")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -16,6 +15,9 @@ public class User {
 
     @Column(name = "username")
     private String username;
+
+    @Column(name = "github_username")
+    private String githubUsername;
 
     @Column(name = "email")
     private String email;
@@ -53,6 +55,10 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public String getGithubUsername() { return githubUsername; }
+
+    public void setGithubUsername(String githubUsername) { this.githubUsername = githubUsername; }
 
     public String getEmail() {
         return email;

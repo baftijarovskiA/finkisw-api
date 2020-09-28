@@ -31,12 +31,17 @@ public class Project {
     @Column(name = "filelocation")
     private String fileLocation;
 
+    @Column(name = "fullName")
+    private String fullName;
+
+    @Column(name = "points")
+    private int points;
+
     @OneToOne(cascade= {CascadeType.REMOVE})
     private Course course;
 
     @OneToOne(cascade= {CascadeType.REMOVE})
     private User user;
-
 
     public Long getId() {
         return id;
@@ -102,6 +107,12 @@ public class Project {
         this.fileLocation = fileLocation;
     }
 
+    public String getFullName() { return fullName; }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Course getCourse() {
         return course;
     }
@@ -117,4 +128,8 @@ public class Project {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public int getPoints() { return points; }
+
+    public void setPoints(int points) { this.points = points; }
 }

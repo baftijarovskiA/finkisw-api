@@ -120,4 +120,20 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         p.setFileLocation(project.getFileLocation());
         repository.save(p);
     }
+
+    @Override
+    public void updateProject(Long id, Project project) {
+        Project p = repository.findById(id).get();
+        p.setFileLocation(project.getFileLocation());
+        p.setFullName(project.getFullName());
+        repository.save(p);
+    }
+
+    @Override
+    public void evaluateProject(Long id, int points) {
+        Project p = repository.findById(id).get();
+        p.setPoints(points);
+        p.setStatus("Graded");
+        repository.save(p);
+    }
 }

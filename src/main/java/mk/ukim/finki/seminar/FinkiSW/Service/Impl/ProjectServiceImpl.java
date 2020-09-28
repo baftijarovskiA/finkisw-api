@@ -65,4 +65,14 @@ public class ProjectServiceImpl implements ProjectService {
     public void uploadProject(Long id, Project project) {
         repository.uploadProject(id,project);
     }
+
+    @Override
+    public void updateProject(Long id, Project project) {
+        repository.updateProject(id, project);
+    }
+
+    @Override
+    public void evaluateProject(Long id, int points) {
+        repository.evaluateProject(id,points);
+    }
 }

@@ -25,4 +25,8 @@ public interface ProjectService {
     void setFeedback(Long id, int state, Project feedback);
 
     void uploadProject(Long id, Project project);
+
+    void updateProject(Long id, Project project);
+
+    void evaluateProject(Long id, int points);
 }

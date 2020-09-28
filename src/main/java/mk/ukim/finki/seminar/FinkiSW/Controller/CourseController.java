@@ -70,6 +70,12 @@ public class CourseController {
         courseService.addInfoToCourse(id, course);
     }
 
+    @RequestMapping(value ="/date/{id}", method = RequestMethod.PUT)
+    @PreAuthorize("hasAuthority('TEACHER_USER')")
+    public void updateDates(@PathVariable("id") Long id, @Valid @RequestBody Course course){
+        courseService.updateDates(id, course);
+    }
+
 
 
 }

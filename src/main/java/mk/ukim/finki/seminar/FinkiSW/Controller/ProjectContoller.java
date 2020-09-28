@@ -59,8 +59,20 @@ public class ProjectContoller {
         projectService.uploadProject(id,project);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
     @PreAuthorize("hasAuthority('STUDENT_USER') or hasAuthority('ADMIN_USER')")
+    public void updateProject(@PathVariable("id") Long id, @Valid @RequestBody Project project){
+        projectService.updateProject(id,project);
+    }
+
+    @RequestMapping(value = "/points/{id}/{points}", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('TEACHER_USER') or hasAuthority('ADMIN_USER')")
+    public void evaluateProject(@PathVariable("id") Long id, @PathVariable("points") int points){
+        projectService.evaluateProject(id,points);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("hasAuthority('ADMIN_USER')")
     public Project deleteProjectById(@PathVariable("id") Long id){
         return projectService.deleteProjectById(id);
     }

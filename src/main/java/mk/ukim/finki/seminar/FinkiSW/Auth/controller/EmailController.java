@@ -23,10 +23,12 @@ public class EmailController {
 
     private void sendmail(String email, String username, String password, int removed) throws MessagingException {
         Properties props = new Properties();
+        props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.debug", "true");
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -34,7 +36,7 @@ public class EmailController {
             }
         });
         Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress("noreply.seminar.finki@gmail.com", false));
+        msg.setFrom(new InternetAddress("${spring.mail.username}", false));
 
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
 
@@ -48,10 +50,16 @@ public class EmailController {
             else if(removed == 2)
                 msg.setSubject("Password changed!");
 
-            msg.setContent("Here are your credentials: <br>" +
-                    "Username: <b>"+username+"</b> <br/>" +
-                    "Password: <i><b>"+password+"</b></i> <br/>" +
-                    "Make sure you save the password for security reasons!", "text/html");
+            if (removed == 0)
+                msg.setContent("Here are your credentials: <br>" +
+                        "Username: <b>"+username+"</b> <br/>" +
+                        "Password: <i><b>"+password+"</b></i> <br/>" +
+                        "Make sure you save the password for security reasons!", "text/html");
+            else if(removed == 2)
+                msg.setContent("Your credential are changed: <br>" +
+                        "Username: <b>"+username+"</b> <br/>" +
+                        "Make sure you save the password for security reasons!", "text/html");
+
         }
 
         msg.setSentDate(new Date());

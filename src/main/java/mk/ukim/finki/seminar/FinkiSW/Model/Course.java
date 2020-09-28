@@ -14,6 +14,9 @@ import java.util.Set;
 @Entity
 @Table(name = "app_course")
 public class Course {
+
+    //TODO: Total project created/Total students in the course
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -27,6 +30,12 @@ public class Course {
 
     @Column(name = "info", length = 5000)
     private String info;
+
+    @Column(name = "start_date")
+    private String startDate;
+
+    @Column(name = "close_date")
+    private String closeDate;
 
     @Column(updatable = false)
     @CreationTimestamp
@@ -62,6 +71,14 @@ public class Course {
     public String getInfo() { return info; }
 
     public void setInfo(String info) { this.info = info; }
+
+    public String getStartDate() { return startDate; }
+
+    public void setStartDate(String startDate) { this.startDate = startDate; }
+
+    public String getCloseDate() { return closeDate; }
+
+    public void setCloseDate(String closeDate) { this.closeDate = closeDate; }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
